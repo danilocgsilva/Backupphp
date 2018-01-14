@@ -1,0 +1,19 @@
+{
+    "name": "danilocgsilva/backupphp",
+    "description": "Generates a sql file entirely trough php code",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "danilocgsilva\\backupphp\\": [
+                "src/"
+            ]
+        }
+    },    
+    "authors": [
+        {
+            "name": "Danilo Silva",
+            "email": "danilocgsilva@gmail.com"
+        }
+    ],
+    "require": {}
+}
