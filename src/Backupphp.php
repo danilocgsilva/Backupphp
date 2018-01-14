@@ -2,7 +2,7 @@
 
 namespace Danilocgsilva\Backupphp;
 
-class Backupphp
+class TheBackup
 {
     public static function hWorld()
     {
