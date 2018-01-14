@@ -1,8 +1,8 @@
 <?php
 
-namespace Danilocgsilva\Backupphp;
+namespace Danilocgsilva;
 
-class TheBackup
+class Backupphp
 {
     public static function hWorld()
     {
