@@ -99,6 +99,10 @@ class Backupphp
     private function _createBackupFile()
     {
         $this->_fileResource = fopen($this->_generateFileName(), 'w');
+
+        if ($this->_fileResource === false) {
+            throw new Exception("Problem on creating the file.");
+        }
     }
 
     /**
