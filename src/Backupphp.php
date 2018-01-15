@@ -75,7 +75,10 @@ class Backupphp
 
         foreach ($instance->_tables as $table) {
             $dropCommand = 'DROP TABLE ' . $table . ';';
+            $createTableCommand = $instance->generateCreateTableScript($table);
+
             $instance->_writeInFile($dropCommand);
+            $instance->_writeInFile($createTableCommand);
         }
 
         echo 'Reached the end!';
@@ -138,5 +141,12 @@ class Backupphp
     private function _writeInFile($content)
     {
         fwrite($this->_fileResource, "\n" . $content);
+    }
+
+    public function generateCreateTableScript($table)
+    {
+        $query = "SHOW CREATE TABLE ${table}";
+        $result = $this->_pdo->query($query, PDO::FETCH_NUM);
+        return $result[1];
     }
 }
