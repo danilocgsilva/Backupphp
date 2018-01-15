@@ -49,10 +49,11 @@ class Backupphp
      * @param string $dbname Database name
      * @param string $pass   Password for the user
      */
-    public static function backup($host, $user, $dbname, $pass)
+    public static function backup($host, $user, $dbname, $pass, $filePath)
     {
         $instance = null;
 
+        // First resource: database connection
         try {
             $instance = new Backupphp($host, $user, $dbname, $pass);
         } catch (Exception $e) {
@@ -61,18 +62,19 @@ class Backupphp
             return;
         }
 
-        $instance->_fillDatabaseTables();
-
-        foreach ($instance->_tables as $table) {
-            $command = 'DROP TABLE ' . $table . ';';
-        }
-
+        // Second resource: filesystem
         try {
-            $instance->_createBackupFile();
+            $instance->_createBackupFile($filePath);
         } catch (Exception $e) {
             echo "Problem writing file";
             throw $e;
             return;
+        }
+
+        $instance->_fillDatabaseTables();
+
+        foreach ($instance->_tables as $table) {
+            $command = 'DROP TABLE ' . $table . ';';
         }
 
         $instance->_writeInFile();
@@ -96,9 +98,11 @@ class Backupphp
      *
      * @return void
      */
-    private function _createBackupFile()
+    private function _createBackupFile($filePath)
     {
-        $this->_fileResource = fopen($this->_generateFileName(), 'w');
+        $fullFilePath = $filePath . DIRECTORY_SEPARATOR . $this->_generateFileName();
+
+        $this->_fileResource = fopen($fullFilePath, 'w');
 
         if ($this->_fileResource === false) {
             throw new Exception("Problem on creating the file.");
