@@ -2,6 +2,8 @@
 
 namespace Danilocgsilva;
 
+use PDO;
+
 class Backupphp
 {
     /**
