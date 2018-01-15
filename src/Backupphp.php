@@ -57,6 +57,7 @@ class Backupphp
             $instance = new Backupphp($host, $user, $dbname, $pass);
         } catch (Exception $e) {
             echo $e->getMessage();
+            throw $e;
             return;
         }
 
