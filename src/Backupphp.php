@@ -3,6 +3,7 @@
 namespace Danilocgsilva;
 
 use PDO;
+use Exception;
 
 class Backupphp
 {
@@ -50,7 +51,15 @@ class Backupphp
      */
     public static function backup($host, $user, $dbname, $pass)
     {
-        $instance = new Backupphp($host, $user, $dbname, $pass);
+        $instance = null;
+
+        try {
+            $instance = new Backupphp($host, $user, $dbname, $pass);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            return;
+        }
+
         $instance->_fillDatabaseTables();
 
         foreach ($instance->_tables as $table) {
