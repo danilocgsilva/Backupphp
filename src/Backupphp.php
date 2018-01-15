@@ -101,6 +101,15 @@ class Backupphp
     private function _createBackupFile($filePath)
     {
         $base_directory = $filePath . DIRECTORY_SEPARATOR;
+
+        if (!is_dir($base_directory)) {
+            try {
+                mkdir($base_directory);
+            } catch (Exception $e) {
+                throw new Exception("The directory does not exists and also no permission to crete it.");
+            }
+        }
+
         if (!is_writable($base_directory)) {
             throw new Exception("No permission to write in the current provided folder.");
         }
