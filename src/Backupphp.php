@@ -56,7 +56,7 @@ class Backupphp
         try {
             $instance = new Backupphp($host, $user, $dbname, $pass);
         } catch (Exception $e) {
-            echo $e->getMessage();
+            echo "Could not connect to database.";
             throw $e;
             return;
         }
