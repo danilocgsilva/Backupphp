@@ -67,7 +67,14 @@ class Backupphp
             $command = 'DROP TABLE ' . $table . ';';
         }
 
-        $instance->_createBackupFile();
+        try {
+            $instance->_createBackupFile();
+        } catch (Exception $e) {
+            echo "Problem writing file";
+            throw $e;
+            return;
+        }
+
         $instance->_writeInFile();
 
         echo 'Reached the end!';
