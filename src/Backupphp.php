@@ -68,6 +68,7 @@ class Backupphp
         }
 
         $instance->_createBackupFile();
+        $instance->_writeInFile();
 
         echo 'Reached the end!';
     }
@@ -104,5 +105,10 @@ class Backupphp
         $file_name = date($format_friendly, time()) . ".sql";
 
         return $format_friendly;
+    }
+
+    private function _writeInFile()
+    {
+        fwrite($this->_fileResource, 'oioioio');
     }
 }
