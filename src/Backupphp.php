@@ -66,7 +66,7 @@ class Backupphp
         try {
             $instance->_createBackupFile($filePath);
         } catch (Exception $e) {
-            echo "Problem writing file";
+            echo $e->getMessage();
             throw $e;
             return;
         }
@@ -100,7 +100,12 @@ class Backupphp
      */
     private function _createBackupFile($filePath)
     {
-        $fullFilePath = $filePath . DIRECTORY_SEPARATOR . $this->_generateFileName();
+        $base_directory = $filePath . DIRECTORY_SEPARATOR;
+        if (!is_writable($base_directory)) {
+            throw new Exception("No permission to write in the current provided folder.");
+        }
+
+        $fullFilePath = $base_directory . $this->_generateFileName();
 
         $this->_fileResource = fopen($fullFilePath, 'w');
 
