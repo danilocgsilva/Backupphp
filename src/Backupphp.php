@@ -146,7 +146,10 @@ class Backupphp
     public function generateCreateTableScript($table)
     {
         $query = "SHOW CREATE TABLE ${table}";
-        $result = $this->_pdo->query($query, PDO::FETCH_NUM);
-        return $result[1];
+        $stmt = $this->_pdo->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_NUM);
+
+        return $result[0][1];
     }
 }
