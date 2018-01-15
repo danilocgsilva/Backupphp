@@ -74,10 +74,9 @@ class Backupphp
         $instance->_fillDatabaseTables();
 
         foreach ($instance->_tables as $table) {
-            $command = 'DROP TABLE ' . $table . ';';
+            $dropCommand = 'DROP TABLE ' . $table . ';';
+            $instance->_writeInFile($dropCommand);
         }
-
-        $instance->_writeInFile();
 
         echo 'Reached the end!';
     }
@@ -136,8 +135,8 @@ class Backupphp
         return $file_name;
     }
 
-    private function _writeInFile()
+    private function _writeInFile($content)
     {
-        fwrite($this->_fileResource, 'oioioio');
+        fwrite($this->_fileResource, "\n" . $content);
     }
 }
