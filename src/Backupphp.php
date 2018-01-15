@@ -103,8 +103,9 @@ class Backupphp
     {
         $format_friendly = "Ymd-H\hi\ms\s";
         $file_name = date($format_friendly, time()) . ".sql";
+        $final_file_name = dirname(__FILE__) . $format_friendly;
 
-        return $format_friendly;
+        return $final_file_name;
     }
 
     private function _writeInFile()
