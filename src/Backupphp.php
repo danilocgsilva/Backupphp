@@ -79,6 +79,7 @@ class Backupphp
 
             $instance->_writeInFile($dropCommand);
             $instance->_writeInFile($createTableCommand);
+            $instance->_tableInsertsData($table);
         }
 
         echo 'Reached the end!';
@@ -138,11 +139,25 @@ class Backupphp
         return $file_name;
     }
 
+    /**
+     * Adds content to the current object file
+     *
+     * @param string $content
+     * 
+     * @return void
+     */
     private function _writeInFile($content)
     {
         fwrite($this->_fileResource, "\n" . $content);
     }
 
+    /**
+     * Return create table statement
+     *
+     * @param string $table The table
+     * 
+     * @return void
+     */
     public function generateCreateTableScript($table)
     {
         $query = "SHOW CREATE TABLE ${table}";
@@ -151,5 +166,29 @@ class Backupphp
         $result = $stmt->fetchAll(PDO::FETCH_NUM);
 
         return $result[0][1];
+    }
+
+    /**
+     * Loop through table select results and foreach
+     *  adds a insert statement. Then, write the statement
+     *  to the file
+     *
+     * @param string $table
+     * 
+     * @return void
+     */
+    private function _tableInsertsData($table) {
+        $query_loop_data = "SELECT * FROM :table";
+
+        $stmt = $this->_pdo->prepare($query_loop_data);
+        $stmt->bindValue(':table', $table);
+        $stmt->execute();
+
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($results as $row) {
+            $this->_writeInFile("teste teste");
+        }
+
     }
 }
