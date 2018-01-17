@@ -167,7 +167,7 @@ class Backupphp
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_NUM);
 
-        return $result[0][1];
+        return $result[0][1] . ";";
     }
 
     /**
