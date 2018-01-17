@@ -194,7 +194,9 @@ class Backupphp
 
             $result_collections = $this->_generateValuesFromQueryRowResult($row, $columns);
 
-            $this->_writeInFile("INSERT INTO {$table} ({$string_columns}) VALUES ({$result_collections})");
+            $insert_statement = "INSERT INTO {$table} ({$string_columns}) VALUES ({$result_collections});";
+
+            $this->_writeInFile($insert_statement);
         }
     }
 
