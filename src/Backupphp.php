@@ -45,10 +45,11 @@ class Backupphp
     /**
      * Makes the mani proccess on the fly
      *
-     * @param string $host   Database host
-     * @param string $user   Database user
-     * @param string $dbname Database name
-     * @param string $pass   Password for the user
+     * @param string $host     Database host
+     * @param string $user     Database user
+     * @param string $dbname   Database name
+     * @param string $pass     Password for the user
+     * @param string $filePath The full server path where to save the backup
      */
     public static function backup($host, $user, $dbname, $pass, $filePath)
     {

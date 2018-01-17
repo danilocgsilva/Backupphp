@@ -1,6 +1,9 @@
 {
     "name": "danilocgsilva/backupphp",
+    "type": "library",
     "description": "Generates a sql file entirely trough php code",
+    "keywords": ["mysql", "backup"],
+    "homepage": "https://github.com/danilocgsilva/Backupphp",
     "license": "MIT",
     "autoload": {
         "psr-4": {
@@ -8,12 +11,10 @@
                 "src/"
             ]
         }
-    },    
-    "authors": [
-        {
-            "name": "Danilo Silva",
-            "email": "danilocgsilva@gmail.com"
-        }
-    ],
+    },
+    "authors": [{
+        "name": "Danilo Silva",
+        "email": "danilocgsilva@gmail.com"
+    }],
     "require": {}
 }
