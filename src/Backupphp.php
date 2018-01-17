@@ -180,17 +180,32 @@ class Backupphp
      * @return void
      */
     private function _tableInsertsData($table) {
-        $query_loop_data = "SELECT * FROM :table";
 
+        $columns = $this->fetchTableColumns($table);
+        $string_columns = implode(", ", $columns);
+        
+        $query_loop_data = "SELECT * FROM `{$table}`";
         $stmt = $this->_pdo->prepare($query_loop_data);
-        $stmt->bindValue(':table', $table);
         $stmt->execute();
 
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($results as $row) {
-            $this->_writeInFile("teste teste");
+            $this->_writeInFile("INSERT INTO {$table} ({$string_columns}) VALUES");
+        }
+    }
+
+    private function fetchTableColumns($table)
+    {
+        $query_select_column = "DESCRIBE {$table}";
+        $results = $this->_pdo->query($query_select_column, PDO::FETCH_ASSOC);
+        
+        $columns_array = [];
+
+        foreach($results as $column) {
+            $columns_array[] = $column['field'];
         }
 
+        return $columns_array;
     }
 }
