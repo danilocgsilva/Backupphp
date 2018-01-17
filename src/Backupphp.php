@@ -217,7 +217,9 @@ class Backupphp
         $results_array = [];
 
         foreach ($fields_array as $field) {
-            $results_array[] = PDO::real_escape_string($row_result[$field]);
+            $results_array[] = $this->_pdo->quote(
+                $row_result[$field]
+            );
         }
 
         $string_values = implode(",", $results_array);
