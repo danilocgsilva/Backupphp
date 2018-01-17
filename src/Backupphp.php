@@ -4,6 +4,7 @@ namespace Danilocgsilva;
 
 use PDO;
 use Exception;
+use ErrorException;
 
 class Backupphp
 {
@@ -58,7 +59,8 @@ class Backupphp
             $instance = new Backupphp($host, $user, $dbname, $pass);
         } catch (Exception $e) {
             echo "Could not connect to database.";
-            throw $e;
+            http_response_code(500);
+            // throw $e;
             return;
         }
 
