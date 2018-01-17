@@ -76,7 +76,7 @@ class Backupphp
         $instance->_fillDatabaseTables();
 
         foreach ($instance->_tables as $table) {
-            $dropCommand = 'DROP TABLE ' . $table . ';';
+            $dropCommand = 'DROP TABLE IF EXISTS `' . $table . '`;';
             $createTableCommand = $instance->generateCreateTableScript($table);
 
             $instance->_writeInFile($dropCommand);
