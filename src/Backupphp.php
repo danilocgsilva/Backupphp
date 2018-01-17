@@ -81,7 +81,9 @@ class Backupphp
 
             $instance->_writeInFile($dropCommand);
             $instance->_writeInFile($createTableCommand);
+            $instance->_writeInFile("LOCK TABLES `{$table}` WRITE;");
             $instance->_tableInsertsData($table);
+            $instance->_writeInFile("UNLOCK TABLES;");
         }
 
         echo 'Reached the end!';
