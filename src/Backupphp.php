@@ -198,12 +198,12 @@ class Backupphp
     private function fetchTableColumns($table)
     {
         $query_select_column = "DESCRIBE {$table}";
-        $results = $this->_pdo->query($query_select_column, PDO::FETCH_ASSOC);
+        $results = $this->_pdo->query($query_select_column, PDO::FETCH_NUM);
         
         $columns_array = [];
 
         foreach($results as $column) {
-            $columns_array[] = $column['field'];
+            $columns_array[] = $column[0];
         }
 
         return $columns_array;
