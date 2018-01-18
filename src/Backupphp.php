@@ -59,7 +59,7 @@ class Backupphp
      * @param string $pass     Password for the user
      * @param string $filePath The full server path where to save the backup
      */
-    public static function backup($host, $user, $dbname, $pass, $filePath)
+    public static function backup($host, $user, $dbname, $pass, $filePath, $databasePrefix = null)
     {
         $instance = null;
 
@@ -82,7 +82,7 @@ class Backupphp
         }
 
         try {
-            $instance->_fillDatabaseTables();
+            $instance->_fillDatabaseTables($prefix);
         } catch (Exception $e) {
             echo $e->getMessage();
             http_response_code(500);
@@ -105,10 +105,13 @@ class Backupphp
 
     /**
      * Fetches the databases tables
+     * 
+     * @param string $prefix In case of existing, only fetches the tables with the 
+     *                        following prefix
      *
      * @return void
      */
-    public function _fillDatabaseTables() {
+    public function _fillDatabaseTables($prefix = null) {
 
         $query_show_tables = "SHOW TABLES";
         $stmt = $this->_pdo->prepare($query_show_tables);
@@ -118,6 +121,20 @@ class Backupphp
 
         if (count($results) === 0) {
             throw new Exception("Your database is empty!");
+        }
+
+        if ($prefix) {
+            foreach ($results as $key => $result) {
+                if (!preg_match('/^' . $prefix . '/', $result)) {
+                    unset($results[$key]);
+                }
+            }
+
+            if (!count($results)) {
+                throw new Exception("No table with given prefix.");
+            }
+
+            $results = array_values($results);
         }
 
         foreach ($results as $entry) {
