@@ -106,7 +106,7 @@ class Backupphp
         $stmt = $this->_pdo->prepare($query_show_tables);
         $stmt->execute();
 
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $results = $stmt->fetchAll(PDO::FETCH_NUM);
 
         if (count($results) === 0) {
             throw new Exception("Your database is empty!");
@@ -201,19 +201,19 @@ class Backupphp
     private function _tableInsertsData($table) {
 
         $columns = $this->_fetchTableColumns($table);
-        $string_columns = implode(", ", $columns[0]);
         
         $query_loop_data = "SELECT * FROM `{$table}`";
         $stmt = $this->_pdo->prepare($query_loop_data);
         $stmt->execute();
 
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $results = $stmt->fetchAll();
 
         foreach ($results as $row) {
 
             $result_collections = $this->_generateValuesFromQueryRowResult($row, $columns);
 
-            $insert_statement = "INSERT INTO {$table} ({$string_columns}) VALUES ({$result_collections});";
+            $insert_statement = "INSERT INTO {$table} VALUES ({$result_collections});";
 
             $this->_writeInFile($insert_statement);
         }
@@ -255,11 +255,7 @@ class Backupphp
     {
         $results_array = [];
 
-        // foreach ($columns_and_types[0] as $field) {
-        //     $results_array[] = $this->_decidesTermType();
-        // }
-
-        for ($i = 0; $i < count($columns_and_types); $i++) {
+        for ($i = 0; $i < count($row_result) / 2; $i++) {
             $results_array[] = $this->_decidesTermType($columns_and_types, $i, $row_result);
         }
 
@@ -284,9 +280,9 @@ class Backupphp
         $field_type = $columns_and_types[1][$loopValue];
         $raw_value  = $row_result[$loopValue];
 
-        if (preg_match('/^int/', $raw_value) && $raw_value === "") {
+        if (preg_match('/^(int|bigint)/', $field_type) && $raw_value === "") {
             return "NULL";
-        } elseif (preg_match('/^int/', $raw_value) && $raw_value !== "") {
+        } elseif (preg_match('/^(int|bigint)/', $field_type) && $raw_value !== "") {
             return $raw_value;
         } else {
             return $this->_pdo->quote($raw_value);
