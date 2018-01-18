@@ -100,7 +100,7 @@ class Backupphp
             $instance->_writeInFile("UNLOCK TABLES;");
         }
 
-        echo 'Successfully created the backup file: ' . $this->fileName;
+        echo 'Successfully created the backup file: ' . $instance->fileName;
     }
 
     /**
