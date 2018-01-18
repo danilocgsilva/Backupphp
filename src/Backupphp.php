@@ -244,7 +244,7 @@ class Backupphp
         // }
 
         for ($i = 0; $i < count($columns_and_types); $i++) {
-            $results_array[] = $this->_decidesTermType($columns_and_types, $i);
+            $results_array[] = $this->_decidesTermType($columns_and_types, $i, $row_result);
         }
 
         $string_values = implode(",", $results_array);
@@ -262,21 +262,19 @@ class Backupphp
      * 
      * @return string
      */
-    private function _decidesTermType($columns_and_types, $loopValue)
+    private function _decidesTermType($columns_and_types, $loopValue, $row_result)
     {
         $field_name = $columns_and_types[0][$loopValue];
         $field_type = $columns_and_types[1][$loopValue];
+        $raw_value  = $row_result[$loopValue];
 
-        $valueStringfied = $this->_pdo->quote($field_name);
-
-        $finalValue = "";
-        if ($valueStringfied === "" && preg_match('/^int/', $field_type)) {
-            $final_value = "null";
+        if (preg_match('/^int/', $raw_value) && $raw_value === "") {
+            return "NULL";
+        } elseif (preg_match('/^int/', $raw_value) && $raw_value !== "") {
+            return $raw_value;
         } else {
-            $final_value = $valueStringfied;
+            return $this->_pdo->quote($raw_value);
         }
-
-        return $valueStringfied;
     }
 
 }
