@@ -280,7 +280,7 @@ class Backupphp
         $field_type = $columns_and_types[1][$loopValue];
         $raw_value  = $row_result[$loopValue];
 
-        if (preg_match('/^(int|bigint)/', $field_type) && $raw_value === "") {
+        if (preg_match('/^(int|bigint)/', $field_type) && $raw_value == "") {
             return "NULL";
         } elseif (preg_match('/^(int|bigint)/', $field_type) && $raw_value !== "") {
             return $raw_value;
