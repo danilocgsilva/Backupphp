@@ -125,7 +125,7 @@ class Backupphp
 
         if ($prefix) {
             foreach ($results as $key => $result) {
-                if (!preg_match('/^' . $prefix . '/', $result)) {
+                if (!preg_match('/^' . $prefix . '/', $result[0])) {
                     unset($results[$key]);
                 }
             }
