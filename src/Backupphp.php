@@ -82,7 +82,7 @@ class Backupphp
         }
 
         try {
-            $instance->_fillDatabaseTables($prefix);
+            $instance->_fillDatabaseTables($databasePrefix);
         } catch (Exception $e) {
             echo $e->getMessage();
             http_response_code(500);
