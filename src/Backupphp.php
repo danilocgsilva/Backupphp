@@ -30,6 +30,13 @@ class Backupphp
     private $_fileResource;
 
     /**
+     * Filename generated
+     *
+     * @var string
+     */
+    public $fileName;
+
+    /**
      * The constructor
      *
      * @param string $host   Database host
@@ -40,6 +47,7 @@ class Backupphp
     public function __construct($host, $user, $dbname, $pass)
     {
         $this->_pdo = new PDO('mysql:host=' . $host . ';dbname=' . $dbname, $user, $pass);
+        $this->_generateFileName();
     }
 
     /**
@@ -92,7 +100,7 @@ class Backupphp
             $instance->_writeInFile("UNLOCK TABLES;");
         }
 
-        echo 'Reached the end!';
+        echo 'Successfully created the backup file: ' . $this->fileName;
     }
 
     /**
@@ -138,7 +146,7 @@ class Backupphp
             throw new Exception("No permission to write in the current provided folder.");
         }
 
-        $fullFilePath = $base_directory . $this->_generateFileName();
+        $fullFilePath = $base_directory . $this->fileName;
 
         $this->_fileResource = fopen($fullFilePath, 'w');
 
@@ -148,7 +156,7 @@ class Backupphp
     }
 
     /**
-     * Generates the friendly file name for backup
+     * Sets backup file name
      *
      * @return void
      */
@@ -157,7 +165,7 @@ class Backupphp
         $format_friendly = "Ymd-H\hi\ms\s";
         $file_name = date($format_friendly, time()) . ".sql";
 
-        return $file_name;
+        $this->fileName = $file_name;
     }
 
     /**
