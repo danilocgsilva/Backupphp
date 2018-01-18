@@ -16,5 +16,7 @@
         "name": "Danilo Silva",
         "email": "danilocgsilva@gmail.com"
     }],
-    "require": {}
+    "require": {
+        "php": "^5.4"
+    }
 }
