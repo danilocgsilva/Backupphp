@@ -37,6 +37,13 @@ class Backupphp
     public $fileName;
 
     /**
+     * Full file path
+     *
+     * @var string
+     */
+    public $fullFilePath;
+
+    /**
      * The constructor
      *
      * @param string $host   Database host
@@ -86,6 +93,7 @@ class Backupphp
         } catch (Exception $e) {
             echo $e->getMessage();
             http_response_code(500);
+            unlink($this->fullFilePath);
             return;
         }
 
@@ -163,9 +171,9 @@ class Backupphp
             throw new Exception("No permission to write in the current provided folder.");
         }
 
-        $fullFilePath = $base_directory . $this->fileName;
+        $this->fullFilePath = $base_directory . $this->fileName;
 
-        $this->_fileResource = fopen($fullFilePath, 'w');
+        $this->_fileResource = fopen($this->fullFilePath, 'w');
 
         if ($this->_fileResource === false) {
             throw new Exception("Problem on creating the file.");
