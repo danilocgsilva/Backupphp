@@ -61,7 +61,6 @@ class Backupphp
         } catch (Exception $e) {
             echo "Could not connect to database.";
             http_response_code(500);
-            // throw $e;
             return;
         }
 
@@ -70,7 +69,7 @@ class Backupphp
             $instance->_createBackupFile($filePath);
         } catch (Exception $e) {
             echo $e->getMessage();
-            throw $e;
+            http_response_code(500);
             return;
         }
 
@@ -78,7 +77,7 @@ class Backupphp
             $instance->_fillDatabaseTables();
         } catch (Exception $e) {
             echo $e->getMessage();
-            throw $e;
+            http_response_code(500);
             return;
         }
 
