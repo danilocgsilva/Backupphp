@@ -9,7 +9,7 @@ composer require danilocgsilva/backupphp
 ## Usage
 Once you've installed the package in your project, just call:
 ```php
-\Danilocgsilva\Backupphp::backup('mysql_host', 'mysql_user', 'database_name', 'password', 'full_server_path_to_store_sql_files');
+\Danilocgsilva\Backupphp::backup('mysql_host', 'mysql_user', 'database_name', 'password', 'full_server_path_to_store_sql_files', (optional)'database_prefix');
 ```
 
 ## Security Notice
