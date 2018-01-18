@@ -74,7 +74,13 @@ class Backupphp
             return;
         }
 
-        $instance->_fillDatabaseTables();
+        try {
+            $instance->_fillDatabaseTables();
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            throw $e;
+            return;
+        }
 
         foreach ($instance->_tables as $table) {
             $dropCommand = 'DROP TABLE IF EXISTS `' . $table . '`;';
@@ -96,7 +102,18 @@ class Backupphp
      * @return void
      */
     public function _fillDatabaseTables() {
-        foreach ($this->_pdo->query('SHOW TABLES', PDO::FETCH_NUM) as $entry) {
+
+        $query_show_tables = "SHOW TABLES";
+        $stmt = $this->_pdo->prepare($query_show_tables);
+        $stmt->execute();
+
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (count($results) === 0) {
+            throw new Exception("Your database is empty!");
+        }
+
+        foreach ($results as $entry) {
             $this->_tables[] = $entry[0];
         }
     }
