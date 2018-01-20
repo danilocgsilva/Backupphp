@@ -46,7 +46,7 @@ class Backupphp
      */
     public function __construct($host, $user, $dbname, $pass, $encoding)
     {
-        $this->_pdo = new PDO('mysql:host=' . $host . ';dbname=' . $dbname . ';charset=' . $encoding, $user, $pass, $encoding);
+        $this->_pdo = new PDO('mysql:host=' . $host . ';dbname=' . $dbname . ';charset=' . $encoding, $user, $pass);
         $this->_generateFileName();
     }
 
