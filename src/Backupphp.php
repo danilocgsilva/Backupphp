@@ -44,9 +44,9 @@ class Backupphp
      * @param string $dbname Database name
      * @param string $pass   Password for the user
      */
-    public function __construct($host, $user, $dbname, $pass)
+    public function __construct($host, $user, $dbname, $pass, $encoding)
     {
-        $this->_pdo = new PDO('mysql:host=' . $host . ';dbname=' . $dbname, $user, $pass);
+        $this->_pdo = new PDO('mysql:host=' . $host . ';dbname=' . $dbname . ';charset=' . $encoding, $user, $pass, $encoding);
         $this->_generateFileName();
     }
 
@@ -59,13 +59,20 @@ class Backupphp
      * @param string $pass     Password for the user
      * @param string $filePath The full server path where to save the backup
      */
-    public static function backup($host, $user, $dbname, $pass, $filePath, $databasePrefix = null)
-    {
+    public static function backup(
+        $host, 
+        $user, 
+        $dbname, 
+        $pass, 
+        $filePath, 
+        $databasePrefix = null,
+        $encoding = 'utf8'
+    ) {
         $instance = null;
 
         // First resource: database connection
         try {
-            $instance = new Backupphp($host, $user, $dbname, $pass);
+            $instance = new Backupphp($host, $user, $dbname, $pass, $encoding);
         } catch (Exception $e) {
             echo "Could not connect to database.";
             http_response_code(500);
